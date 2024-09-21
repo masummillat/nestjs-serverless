@@ -1,0 +1,34 @@
+service: your-service-name
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  environment:
+    NODE_ENV: ${self:provider.stage}
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+    packager: 'npm'
+    keepOutputDirectory: true
+  serverless-offline:
+    noPrependStageInUrl: true
+    useChildProcesses: true
+    hot: true
+  dotenv:
+    path: ./.env.${self:provider.stage}
+
+functions:
+  main:
+    handler: src/lambda.handler
+    events:
+      - http:
+          method: ANY
+          path: /{proxy+}
