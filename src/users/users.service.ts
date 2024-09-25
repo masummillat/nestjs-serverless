@@ -39,7 +39,7 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all users wowo working`;
+    return `This action returns all users`;
   }
 
   async findOne(username: string): Promise<CreateUserDto> {
