@@ -11,6 +11,9 @@ module.exports = (env, argv) => {
     entry: ['./src/main.ts'],
     target: 'node',
     externals: [nodeExternals()],
+    stats: {
+      errorDetails: true,
+    },
     module: {
       rules: [
         {
@@ -32,7 +35,7 @@ module.exports = (env, argv) => {
     plugins: [new webpack.EnvironmentPlugin(['NODE_ENV'])],
   };
 
-  if (!nodeEnv !== 'prod') {
+  if (nodeEnv !== 'prod') {
     // Development-specific settings
     return {
       ...baseConfig,
