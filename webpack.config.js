@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
         },
       ],
     },
-    mode: nodeEnv === 'prod' ? 'production' : 'development',
+    mode: nodeEnv === 'production' ? 'production' : 'development',
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
     },
@@ -35,8 +35,9 @@ module.exports = (env, argv) => {
     plugins: [new webpack.EnvironmentPlugin(['NODE_ENV'])],
   };
 
-  if (nodeEnv !== 'prod') {
+  if (nodeEnv !== 'production') {
     // Development-specific settings
+    console.log('entered into development mode');
     return {
       ...baseConfig,
       entry: ['webpack/hot/poll?100', './src/main.ts'],
