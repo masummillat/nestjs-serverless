@@ -1,4 +1,4 @@
-service: your-service-name
+service: simple-auth-service
 
 provider:
   name: aws
@@ -34,4 +34,7 @@ functions:
     events:
       - http:
           method: ANY
-          path: /{proxy+}
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'

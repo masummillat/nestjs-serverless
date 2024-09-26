@@ -36,7 +36,6 @@ export class Auth0Service {
   // Fetch User Info by ID
   async getUserInfo(userId: string): Promise<any> {
     const token = await this.getManagementApiToken();
-
     try {
       const response = await axios.get(
         `https://${this.auth0Domain}/api/v2/users/${userId}`,

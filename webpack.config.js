@@ -6,8 +6,7 @@ const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (env, argv) => {
-  const isProduction = env.NODE_ENV === 'prod';
-
+  const nodeEnv = env.NODE_ENV || 'development';
   const baseConfig = {
     entry: ['./src/main.ts'],
     target: 'node',
@@ -21,7 +20,7 @@ module.exports = (env, argv) => {
         },
       ],
     },
-    mode: isProduction ? 'production' : 'development',
+    mode: nodeEnv === 'prod' ? 'production' : 'development',
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
     },
@@ -30,14 +29,10 @@ module.exports = (env, argv) => {
       filename: 'server.js',
       libraryTarget: 'commonjs2',
     },
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
-      }),
-    ],
+    plugins: [new webpack.EnvironmentPlugin(['NODE_ENV'])],
   };
 
-  if (!isProduction) {
+  if (!nodeEnv !== 'prod') {
     // Development-specific settings
     return {
       ...baseConfig,
