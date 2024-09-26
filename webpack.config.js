@@ -4,22 +4,18 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (env, argv) => {
-  const isProduction = argv.mode === 'production';
-  const environment = env.NODE_ENV || 'local';
+  const isProduction = env.NODE_ENV === 'prod';
 
-  return {
-    entry: ['webpack/hot/poll?100', './src/main.ts'],
+  const baseConfig = {
+    entry: ['./src/main.ts'],
     target: 'node',
-    externals: [
-      nodeExternals({
-        allowlist: ['webpack/hot/poll?100'],
-      }),
-    ],
+    externals: [nodeExternals()],
     module: {
       rules: [
         {
-          test: /.tsx?$/,
+          test: /\.tsx?$/,
           use: 'ts-loader',
           exclude: /node_modules/,
         },
@@ -29,19 +25,45 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.WatchIgnorePlugin({
-        paths: [/\.js$/, /\.d\.ts$/],
-      }),
-      new RunScriptWebpackPlugin({ name: 'server.js', autoRestart: false }),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(environment),
-      }),
-    ],
     output: {
       path: path.join(__dirname, 'dist'),
       filename: 'server.js',
+      libraryTarget: 'commonjs2',
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
+      }),
+    ],
   };
+
+  if (!isProduction) {
+    // Development-specific settings
+    return {
+      ...baseConfig,
+      entry: ['webpack/hot/poll?100', './src/main.ts'],
+      watch: true,
+      externals: [
+        nodeExternals({
+          allowlist: ['webpack/hot/poll?100'],
+        }),
+      ],
+      plugins: [
+        ...baseConfig.plugins,
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.WatchIgnorePlugin({
+          paths: [/\.js$/, /\.d\.ts$/],
+        }),
+        new RunScriptWebpackPlugin({ name: 'server.js', autoRestart: false }),
+      ],
+    };
+  } else {
+    // Production-specific settings
+    return {
+      ...baseConfig,
+      optimization: {
+        minimize: true,
+      },
+    };
+  }
 };
