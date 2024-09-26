@@ -49,7 +49,7 @@ export class Auth0Service {
       return response.data;
     } catch (error) {
       throw new Error(
-        `Failed to fetch user info: ${error.response.data.message}`,
+        `Failed to fetch user information by ID: ${error.response.data.message}`,
       );
     }
   }
