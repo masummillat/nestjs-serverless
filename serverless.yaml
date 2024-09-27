@@ -11,6 +11,7 @@ provider:
     NODE_ENV: ${self:provider.stage}
 
 plugins:
+  - serverless-webpack
   - serverless-offline
   - serverless-dotenv-plugin
 
@@ -29,7 +30,7 @@ custom:
 
 functions:
   main:
-    handler: src/lambda.handler
+    handler: dist/lambda.handler
     events:
       - http:
           method: ANY

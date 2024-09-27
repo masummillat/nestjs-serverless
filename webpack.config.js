@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
   const baseConfig = {
     entry: ['./src/main.ts'],
     target: 'node',
-    externals: [nodeExternals()],
+    externals: [nodeExternals(['aws-lambda'])],
     stats: {
       errorDetails: true,
     },
@@ -46,7 +46,7 @@ module.exports = (env, argv) => {
       watch: true,
       externals: [
         nodeExternals({
-          allowlist: ['webpack/hot/poll?100'],
+          allowlist: ['webpack/hot/poll?100', ['aws-lambda']],
         }),
       ],
       plugins: [
