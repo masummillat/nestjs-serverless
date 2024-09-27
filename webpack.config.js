@@ -6,6 +6,8 @@ const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (env, argv) => {
+  console.log('env.NODE_ENV', env.NODE_ENV);
+  console.log('Full env object:', env);
   const nodeEnv = env.NODE_ENV || 'development';
   const baseConfig = {
     entry: ['./src/main.ts'],
