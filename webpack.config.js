@@ -10,7 +10,7 @@ module.exports = (env, argv) => {
   console.log('Full env object:', env);
   const nodeEnv = env.NODE_ENV || 'development';
   const baseConfig = {
-    entry: ['./src/main.ts'],
+    entry: ['./src/lambda.ts'],
     target: 'node',
     externals: [nodeExternals(['aws-lambda'])],
     stats: {

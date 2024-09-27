@@ -29,7 +29,7 @@ custom:
 
 functions:
   main:
-    handler: dist/lambda.js
+    handler: dist/lambda.handler
     events:
       - http:
           method: ANY
