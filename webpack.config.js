@@ -31,7 +31,7 @@ module.exports = (env, argv) => {
     },
     output: {
       path: path.join(__dirname, 'dist'),
-      filename: 'server.js',
+      filename: 'lambda.js',
       libraryTarget: 'commonjs2',
     },
     plugins: [new webpack.EnvironmentPlugin(['NODE_ENV'])],
@@ -55,7 +55,7 @@ module.exports = (env, argv) => {
         new webpack.WatchIgnorePlugin({
           paths: [/\.js$/, /\.d\.ts$/],
         }),
-        new RunScriptWebpackPlugin({ name: 'server.js', autoRestart: false }),
+        new RunScriptWebpackPlugin({ name: 'lambda.js', autoRestart: false }),
       ],
     };
   } else {
