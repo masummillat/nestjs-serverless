@@ -25,7 +25,10 @@ jobs:
       run: npm run build:prod
 
     - name: Serverless Deploy to Prod
-      run: npm run serverless:prod
+      run: |
+        echo "Starting serverless deployment..."
+        npm run serverless:prod -- --verbose
+        echo "Serverless deployment completed."
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
