@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
   const baseConfig = {
     entry: ['./src/lambda.ts'],
     target: 'node',
-    externals: [nodeExternals(['aws-lambda'])],
+    externals: [nodeExternals(['aws-lambda', 'aws-serverless-express'])],
     stats: {
       errorDetails: true,
     },
@@ -42,11 +42,15 @@ module.exports = (env, argv) => {
     console.log('entered into development mode');
     return {
       ...baseConfig,
-      entry: ['webpack/hot/poll?100', './src/main.ts'],
+      entry: ['webpack/hot/poll?100', './src/lambda.ts'],
       watch: true,
       externals: [
         nodeExternals({
-          allowlist: ['webpack/hot/poll?100', ['aws-lambda']],
+          allowlist: [
+            'webpack/hot/poll?100',
+            'aws-lambda',
+            'aws-serverless-express',
+          ],
         }),
       ],
       plugins: [
