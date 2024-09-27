@@ -30,7 +30,7 @@ custom:
 
 functions:
   main:
-    handler: dist/lambda.handler
+    handler: src/lambda.handler
     events:
       - http:
           method: ANY
